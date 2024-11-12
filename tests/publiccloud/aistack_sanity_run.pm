@@ -18,9 +18,14 @@ sub run {
     my $instance = $self->{my_instance} = $args->{my_instance};
     my $provider = $self->{provider} = $args->{my_provider};
 
-    zypper_call "in python3 python3-pytest";
+    my $sanity_tests_path = data_url("aistack/open-webui-api-test-automation/")
+
+    script_run "transactional-update pkg install python3";
+    script_run "python3 -m venv $sanity_tests_path/venv" 
+    script_run "source $sanity_tests_path/venv/bin/activate"
+    script_run "pip3 install -r $sanity_tests_path/requirements.txt"
     # Run python scripts
-    run_python_script('pytest --ENV local ' . data_url("aistack/open-webui-api-test-automation/") . 'tests/');
+    run_python_script("pytest --ENV local $sanity_tests_path/tests/");
 }
 
 sub post_fail_hook {
