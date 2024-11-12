@@ -18,7 +18,7 @@ sub run {
     my $instance = $self->{my_instance} = $args->{my_instance};
     my $provider = $self->{provider} = $args->{my_provider};
 
-    my $sanity_tests_path = data_url("aistack/open-webui-api-test-automation/")
+    $sanity_tests_path = data_url("aistack/open-webui-api-test-automation/")
 
     script_run "transactional-update pkg install python3";
     script_run "python3 -m venv $sanity_tests_path/venv" 
