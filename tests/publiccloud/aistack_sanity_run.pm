@@ -3,6 +3,8 @@ use strict;
 use warnings;
 use testapi;
 use utils;
+use publiccloud::utils;
+use version_utils;
 
 sub run_python_script {
     my $script = shift;
