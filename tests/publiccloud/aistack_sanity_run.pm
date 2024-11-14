@@ -27,7 +27,7 @@ sub run {
     script_run("source $sanity_tests_path/venv/bin/activate");
     assert_script_run("pip3 install -r $sanity_tests_path/requirements.txt")
     # Run python scripts
-    run_python_script("pytest --ENV local $sanity_tests_path/tests/");
+    assert_script_run("pytest --ENV local $sanity_tests_path/tests/");
 }
 
 sub post_fail_hook {
