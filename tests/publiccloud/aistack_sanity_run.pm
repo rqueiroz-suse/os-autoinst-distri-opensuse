@@ -23,8 +23,8 @@ sub run {
     my $sanity_tests_path = data_url("aistack/open-webui-api-test-automation/");
 
     assert_script_run("transactional-update pkg install python3");
-    assert_script_run("python3 -m venv $sanity_tests_path/venv"); 
-    assert_script_run("source $sanity_tests_path/venv/bin/activate");
+    # assert_script_run("python -m venv $sanity_tests_path/venv"); 
+    # assert_script_run("source $sanity_tests_path/venv/bin/activate");
     assert_script_run("pip3 install -r $sanity_tests_path/requirements.txt")
     # Run python scripts
     #assert_script_run("pytest --ENV local $sanity_tests_path/tests/");
