@@ -20,18 +20,17 @@ sub run {
     my $instance = $self->{my_instance} = $args->{my_instance};
     my $provider = $self->{provider} = $args->{my_provider};
 
-    my $sanity_tests_path = data_url("aistack/open-webui-api-test-automation/");
-    
-    my $install_timeout = 15 * 60;
-    my @dependencies = ("pytest", "python-dotenv");
+    my $sanity_tests_url = data_url("aistack/open-webui-api-test-automation.tar.gz");
+    my $test_folder = "open-webui-sanity-tests"
 
+    assert_script_run("curl -O " . $sanity_tests_path);
+    assert_script_run("mkdir " . $test_folder)
+    assert_script_run("tar -xzvf open-webui-api-test-automation.tar.gz -C ./" . $test_folder)
     assert_script_run("transactional-update pkg install python3");
-    assert_script_run("python3 -m venv venv"); 
-    assert_script_run("source venv/bin/activate");
-    foreach (@dependencies) {
-        assert_script_run('pip install --force-reinstall ' . $_, timeout => $install_timeout);
-    }
-    assert_script_run("pytest --ENV local " . $sanity_tests_path . "/tests/");
+    assert_script_run("python3 -m venv " . $test_folder . "/venv"); 
+    assert_script_run("source " . $test_folder . "/venv/bin/activate");
+    assert_script_run("pip3 install -r ./" . $test_folder . "/requirements.txt")
+    assert_script_run("pytest --ENV local ./" . $test_folder . "/tests/");
 }
 
 sub post_fail_hook {
