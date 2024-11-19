@@ -26,7 +26,8 @@ sub run {
     assert_script_run("python3 -m venv venv"); 
     assert_script_run("source venv/bin/activate");
     assert_script_run("wget " . $sanity_tests_path);
-    assert_script_run("pip3 install -r open-webui-api-test-automation/requirements.txt");
+    assert_script_run("ls");
+    assert_script_run("pip3 install -r ./open-webui-api-test-automation/requirements.txt");
     assert_script_run("pytest --ENV local " . $sanity_tests_path . "/tests/");
 }
 
