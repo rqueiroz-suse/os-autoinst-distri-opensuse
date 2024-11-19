@@ -25,7 +25,7 @@ sub run {
     assert_script_run("transactional-update pkg install python3");
     assert_script_run("python3 -m venv venv"); 
     assert_script_run("source venv/bin/activate");
-    assert_script_run("pip3 install -r " . $sanity_tests_path . "/requirements.txt");
+    assert_script_run("pip3 install -r " . $sanity_tests_path . "requirements.txt");
     assert_script_run("pytest --ENV local " . $sanity_tests_path . "/tests/");
 }
 
