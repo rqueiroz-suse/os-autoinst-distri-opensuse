@@ -28,8 +28,8 @@ sub run {
     assert_script_run("transactional-update pkg install python3");
     assert_script_run("python3 -m venv venv"); 
     assert_script_run("source venv/bin/activate");
-    foreach $rec(@dependencies) {
-        assert_script_run('pip install --force-reinstall ' . $rec, timeout => $install_timeout);
+    foreach (@dependencies) {
+        assert_script_run('pip install --force-reinstall ' . $_, timeout => $install_timeout);
     }
     assert_script_run("pytest --ENV local " . $sanity_tests_path . "/tests/");
 }
