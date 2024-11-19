@@ -14,6 +14,11 @@ sub run_python_script {
     assert_script_run("./$script 2>&1 | tee $logfile");
 }
 
+sub install_in_venv {
+    my $install_timeout = 15 * 60;
+    assert_script_run('pip install --force-reinstall ' . $what_to_install, timeout => $install_timeout);
+}
+
 sub run {
     my ($self, $args) = @_;
 
@@ -22,12 +27,14 @@ sub run {
 
     my $sanity_tests_path = data_url("aistack/open-webui-api-test-automation/");
 
+    @dependencies = ("pytest", "python-dotenv")
+
     assert_script_run("transactional-update pkg install python3");
     assert_script_run("python3 -m venv venv"); 
     assert_script_run("source venv/bin/activate");
-    assert_script_run("wget " . $sanity_tests_path);
-    assert_script_run("ls");
-    assert_script_run("pip3 install -r ./open-webui-api-test-automation/requirements.txt");
+    foreach $rec(@dependencies) {
+        assert_script_run('pip install --force-reinstall ' . $rec, timeout => $install_timeout);
+    }
     assert_script_run("pytest --ENV local " . $sanity_tests_path . "/tests/");
 }
 
