@@ -21,7 +21,8 @@ sub run {
     my $provider = $self->{provider} = $args->{my_provider};
 
     my $sanity_tests_path = data_url("aistack/open-webui-api-test-automation/");
-
+    
+    my $install_timeout = 15 * 60;
     my @dependencies = ("pytest", "python-dotenv");
 
     assert_script_run("transactional-update pkg install python3");
