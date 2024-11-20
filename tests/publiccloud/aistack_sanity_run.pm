@@ -20,7 +20,7 @@ sub run {
     my $instance = $self->{my_instance} = $args->{my_instance};
     my $provider = $self->{provider} = $args->{my_provider};
 
-    my $sanity_tests_url = data_url("aistack/open-webui-api-test-automation.tar.gz");
+    my $sanity_tests_url = data_url("aistack/open-webui-sanity-tests.tar.gz");
     my $test_folder = "open-webui-sanity-tests";
 
     assert_script_run("curl -O " . $sanity_tests_url);
