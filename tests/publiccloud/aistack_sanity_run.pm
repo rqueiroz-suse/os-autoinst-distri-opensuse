@@ -23,7 +23,7 @@ sub run {
     my $sanity_tests_url = data_url("aistack/open-webui-api-test-automation.tar.gz");
     my $test_folder = "open-webui-sanity-tests";
 
-    assert_script_run("curl -O " . $sanity_tests_path);
+    assert_script_run("curl -O " . $sanity_tests_url);
     assert_script_run("mkdir " . $test_folder);
     assert_script_run("tar -xzvf open-webui-api-test-automation.tar.gz -C " . $test_folder);
     assert_script_run("transactional-update pkg install python3");
