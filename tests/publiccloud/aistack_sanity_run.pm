@@ -24,8 +24,8 @@ sub run {
     my $test_folder = "open-webui-sanity-tests";
 
     assert_script_run("curl -O " . $sanity_tests_url);
-    assert_script_run("mkdir " . $test_folder);
-    assert_script_run("tar -xzvf open-webui-api-test-automation.tar.gz -C " . $test_folder);
+    # assert_script_run("mkdir " . $test_folder);
+    assert_script_run("tar -xzvf open-webui-sanity-tests.tar.gz");
     assert_script_run("transactional-update pkg install python3");
     assert_script_run("python3 -m venv " . $test_folder . "/venv"); 
     assert_script_run("source " . $test_folder . "/venv/bin/activate");
