@@ -29,7 +29,8 @@ sub run {
     assert_script_run("transactional-update pkg install python3");
     assert_script_run("python3 -m venv " . $test_folder . "/venv"); 
     assert_script_run("source " . $test_folder . "/venv/bin/activate");
-    assert_script_run("pip3 install -r " . $test_folder . "/requirements.txt");
+    assert_script_run("ls");
+    assert_script_run("pip3 install -r ./" . $test_folder . "/requirements.txt");
     assert_script_run("pytest --ENV local " . $test_folder . "/tests/");
 }
 
