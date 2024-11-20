@@ -31,7 +31,8 @@ sub run {
     assert_script_run("source " . $test_folder . "/venv/bin/activate");
     assert_script_run("ls");
     assert_script_run("pip3 install -r ./" . $test_folder . "/requirements.txt");
-    assert_script_run("pytest --ENV local " . $test_folder . "/tests/");
+    assert_script_run("cp " . $test_folder . "/.env.example " . $test_folder . "/.env");
+    assert_script_run("pytest --ENV remote " . $test_folder . "/tests/");
 }
 
 sub post_fail_hook {
