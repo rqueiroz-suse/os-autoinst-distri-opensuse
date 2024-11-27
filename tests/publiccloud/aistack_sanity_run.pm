@@ -5,14 +5,7 @@ use testapi;
 use utils;
 use publiccloud::utils;
 use version_utils;
-
-sub run_python_script {
-    my $script = shift;
-    my $logfile = "output.txt";
-    record_info($script, "Running python script: $script");
-    assert_script_run("$script");
-    assert_script_run("./$script 2>&1 | tee $logfile");
-}
+use transactional qw(process_reboot trup_install trup_shell);
 
 sub run {
     my ($self, $args) = @_;
@@ -23,16 +16,27 @@ sub run {
     my $sanity_tests_url = data_url("aistack/open-webui-sanity-tests.tar.gz");
     my $test_folder = "open-webui-sanity-tests";
 
+    my $ipaddr = get_var('OPENWEBUI_IP');
+    my $host_name = get_var('OPENWEBUI_HOSTNAME');
+    record_info("debug $ipaddr");
+    assert_script_run("echo \"$ipaddr $host_name\" | sudo tee -a /etc/hosts > /dev/null");
+    record_info("Added $ipaddr to /etc/hosts with hostname $host_name");
+    assert_script_run("cat /etc/hosts");
+    assert_script_run("printenv");
+
+    my $admin_email = get_var('OPENWEBUI_ADMIN_EMAIL');
+    my $admin_password = get_var('OPENWEBUI_ADMIN_PWD');
+
     assert_script_run("curl -O " . $sanity_tests_url);
     assert_script_run("mkdir " . $test_folder);
     assert_script_run("tar -xzvf open-webui-sanity-tests.tar.gz -C " . $test_folder);
-    assert_script_run("transactional-update pkg install python3");
+    trup_call(" pkg install python3");
     assert_script_run("python3 -m venv " . $test_folder . "/venv"); 
     assert_script_run("source " . $test_folder . "/venv/bin/activate");
     assert_script_run("pip3 install -r ./" . $test_folder . "/requirements.txt");
     assert_script_run("ll " . $test_folder);
     assert_script_run("cp " . $test_folder . "/env.example " . $test_folder . "/.env");
-    assert_script_run("pytest --ENV remote " . $test_folder . "/tests/");
+    assert_script_run("pytest --URL=" . $host_name . " --OPENWEBUI-ADMIN-EMAIL=" . $admin_email . " --OPENWEBUI-ADMIN-PWD=" . $admin_password . " " . $test_folder . "/tests/");
 }
 
 sub post_fail_hook {
