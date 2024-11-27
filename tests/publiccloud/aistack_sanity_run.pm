@@ -5,7 +5,7 @@ use testapi;
 use utils;
 use publiccloud::utils;
 use version_utils;
-use transactional qw(process_reboot trup_install trup_shell);
+use transactional qw(process_reboot trup_install trup_shell trup_call);
 
 sub run {
     my ($self, $args) = @_;
