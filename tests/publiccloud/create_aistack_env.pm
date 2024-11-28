@@ -116,10 +116,11 @@ sub install_aistack_chart {
     my $gitlab_clone_url = 'https://git:' . $git_token . '@' . $repo_url;
     assert_script_run("git clone $gitlab_clone_url");
     assert_script_run("curl " . data_url("aistack/$vf_name") . " -o $vf_name", 60);
-    assert_script_run("curl -o $vf_name " . data_url("aistack/$ai_chart_repo"), timeout => 120);
+    assert_script_run("curl -o " . data_url("aistack/$ai_chart_repo"), timeout => 120);
 
     # local-path-storage.yaml is a copy off https://raw.githubusercontent.com/rancher/local-path-provisioner/v0.0.28/deploy/local-path-storage.yaml
     assert_script_run("curl " . data_url("aistack/$local_storage_name") . " -o $local_storage_name", 60);
+    assert_script_run("ll");
     assert_script_run("kubectl apply -f $local_storage_name", timeout => 120);
     assert_script_run("helm upgrade --install suse-private-ai private-ai-charts --namespace $namespace --create-namespace --values $vf_name --set open-webui.ingress.class=nginx", timeout => 600);
     assert_script_run("kubectl get all --namespace $namespace");
@@ -225,7 +226,8 @@ sub install_nvidia_drivers {
     trup_call("pkg install -y --auto-agree-with-licenses nvidia-open-driver-G06-signed-kmp=$driver_version nvidia-compute-utils-G06=$driver_version");
 
     record_info('Install nvidia gpu operator');
-    assert_script_run("curl -o $file_name " . data_url("aistack/$values_url"), timeout => 120);
+    assert_script_run("curl -o " . data_url("aistack/$values_url"), timeout => 120);
+    assert_script_run("ll");
     #assert_script_run( "curl " . data_url("aistack/$file_name") . " -o $file_name", 60);
     assert_script_run("helm repo add $gpu_op_url", timeout => 600);
     assert_script_run("helm repo update", timeout => 600);
