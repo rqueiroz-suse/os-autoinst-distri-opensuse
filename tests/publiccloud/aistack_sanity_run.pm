@@ -19,8 +19,8 @@ sub run {
     my $ipaddr = get_var('OPENWEBUI_IP');
     my $host_name = get_var('OPENWEBUI_HOSTNAME');
     record_info("debug $ipaddr");
-    assert_script_run("echo \"$ipaddr $host_name\" | sudo tee -a /etc/hosts > /dev/null");
-    record_info("Added $ipaddr to /etc/hosts with hostname $host_name");
+    # assert_script_run("echo \"$ipaddr $host_name\" | sudo tee -a /etc/hosts > /dev/null");
+    # record_info("Added $ipaddr to /etc/hosts with hostname $host_name");
     assert_script_run("cat /etc/hosts");
     assert_script_run("printenv");
 
