@@ -116,7 +116,7 @@ sub install_aistack_chart {
     my $gitlab_clone_url = 'https://git:' . $git_token . '@' . $repo_url;
     assert_script_run("git clone $gitlab_clone_url");
     assert_script_run("curl " . data_url("aistack/$vf_name") . " -o $vf_name", 60);
-    assert_script_run("curl -o $vf_name $ai_chart_repo", timeout => 120);
+    assert_script_run("curl -o $vf_name " .data_url("aistack/$ai_chart_repo"), timeout => 120);
 
     # local-path-storage.yaml is a copy off https://raw.githubusercontent.com/rancher/local-path-provisioner/v0.0.28/deploy/local-path-storage.yaml
     assert_script_run("curl " . data_url("aistack/$local_storage_name") . " -o $local_storage_name", 60);
