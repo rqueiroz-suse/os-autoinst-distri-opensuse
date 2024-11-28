@@ -225,7 +225,7 @@ sub install_nvidia_drivers {
     trup_call("pkg install -y --auto-agree-with-licenses nvidia-open-driver-G06-signed-kmp=$driver_version nvidia-compute-utils-G06=$driver_version");
 
     record_info('Install nvidia gpu operator');
-    assert_script_run("curl -o $file_name $values_url", timeout => 120);
+    assert_script_run("curl -o $file_name " . data_url("aistack/$values_url"), timeout => 120);
     #assert_script_run( "curl " . data_url("aistack/$file_name") . " -o $file_name", 60);
     assert_script_run("helm repo add $gpu_op_url", timeout => 600);
     assert_script_run("helm repo update", timeout => 600);
