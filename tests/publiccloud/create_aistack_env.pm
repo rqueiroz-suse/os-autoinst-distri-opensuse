@@ -45,10 +45,11 @@ sub install_dependency_package {
 
     # rke2 activation section
     script_run("curl -sSL $rke2_url -o ./install_rke2.sh && chmod 775 ./install_rke2.sh");
-    script_run("sh ./install_rke2.sh");
+    script_run("sh ./install_rke2.sh | sh -");
     script_run("echo 'export PATH=\$PATH:/opt/rke2/bin' >> ~/.bashrc");
-    systemctl("enable rke2-server.service");
-    systemctl("start rke2-server.service");
+    script_run("source ~/.bashrc");
+    systemctl("enable --now rke2-server.service");
+    # systemctl("start rke2-server.service");
     systemctl("status rke2-server.service");
     script_run("rke2 --version");
 
