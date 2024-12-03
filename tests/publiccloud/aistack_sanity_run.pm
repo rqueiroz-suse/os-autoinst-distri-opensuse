@@ -43,16 +43,4 @@ sub run {
     assert_script_run("pytest --URL=https://" . $host_name . " --OPENWEBUI-ADMIN-EMAIL=" . $admin_email . " --OPENWEBUI-ADMIN-PWD=" . $admin_password . " " . $test_folder . "/tests/");
 }
 
-sub post_fail_hook {
-    my $self = shift;
-    $self->cleanup();
-    $self->SUPER::post_fail_hook;
-}
-
-sub post_run_hook {
-    my $self = shift;
-    $self->cleanup();
-    $self->SUPER::post_run_hook;
-}
-
 1;
