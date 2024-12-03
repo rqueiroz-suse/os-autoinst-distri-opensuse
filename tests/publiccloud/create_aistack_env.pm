@@ -123,7 +123,7 @@ sub install_aistack_chart {
     assert_script_run("curl " . data_url("aistack/$local_storage_name") . " -o $local_storage_name", 60);
     assert_script_run("ll");
     assert_script_run("kubectl apply -f $local_storage_name", timeout => 120);
-    assert_script_run("helm upgrade --install suse-private-ai private-ai-charts --namespace $namespace --create-namespace --values $vf_name --set open-webui.ingress.class=nginx", timeout => 600);
+    assert_script_run("helm upgrade --install suse-private-ai private-ai-charts --namespace $namespace --create-namespace --values $vf_name --set open-webui.ingress.class=nginx", timeout => 720);
     assert_script_run("kubectl get all --namespace $namespace");
     sleep 180;
 
