@@ -14,19 +14,15 @@ sub test_flags {
 sub run {
     my ($self, $args) = @_;
 
-    my $instance = $self->{my_instance} = $args->{my_instance};
-    my $provider = $self->{provider} = $args->{my_provider};
+    my $instance = $self->{my_instance};
+    my $provider = $self->{provider};
 
     my $sanity_tests_url = data_url("aistack/open-webui-sanity-tests.tar.gz");
     my $test_folder = "open-webui-sanity-tests";
 
     my $ipaddr = get_var('OPENWEBUI_IP');
     my $host_name = get_var('OPENWEBUI_HOSTNAME');
-    record_info("debug $ipaddr");
-    # assert_script_run("echo \"$ipaddr $host_name\" | sudo tee -a /etc/hosts > /dev/null");
-    # record_info("Added $ipaddr to /etc/hosts with hostname $host_name");
-    assert_script_run("cat /etc/hosts");
-    assert_script_run("printenv");
+    
 
     my $admin_email = get_var('OPENWEBUI_ADMIN_EMAIL');
     my $admin_password = get_var('OPENWEBUI_ADMIN_PWD');
