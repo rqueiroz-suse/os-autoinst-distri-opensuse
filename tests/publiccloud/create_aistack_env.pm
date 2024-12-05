@@ -35,7 +35,7 @@ sub install_dependency_package {
     my $helm_url = get_var('HELM_URL');
 
     record_info('Dep pkg install');
-    trup_call("pkg install curl git docker");
+    trup_call("pkg install curl git docker python311");
 
     # docker activation section
     process_reboot(trigger => 1);
@@ -45,7 +45,7 @@ sub install_dependency_package {
 
     # rke2 activation section
     script_run("curl -sSL $rke2_url -o ./install_rke2.sh && chmod 775 ./install_rke2.sh");
-    script_run("sh ./install_rke2.sh | sh -");
+    script_run("sh ./install_rke2.sh");
     script_run("echo 'export PATH=\$PATH:/opt/rke2/bin' >> ~/.bashrc");
     script_run("source ~/.bashrc");
     systemctl("enable --now rke2-server.service");
@@ -73,12 +73,12 @@ sub install_dependency_components {
     # Add Ingress Controller to open-webui endpoint
     assert_script_run("helm repo add $ingress_repo");
     assert_script_run("helm repo update");
-    assert_script_run("helm upgrade --install ingress-nginx ingress-nginx/ingress-nginx --namespace ingress-nginx --set controller.service.type=ClusterIP --version $ing_ver --create-namespace", timeout => 120);
+    assert_script_run("helm upgrade --install ingress-nginx ingress-nginx/ingress-nginx --namespace ingress-nginx --set controller.service.type=ClusterIP --version $ing_ver --create-namespace");
 
     # Add cert-manager repo,install
     assert_script_run("helm repo add $cert_repo");
     assert_script_run("helm repo update");
-    assert_script_run("helm install cert-manager jetstack/cert-manager --namespace cert-manager --create-namespace --version v1.15.2 --set crds.enabled=true", timeout => 120);
+    assert_script_run("helm install cert-manager jetstack/cert-manager --namespace cert-manager --create-namespace --version v1.15.2 --set crds.enabled=true");
 }
 
 sub config_kubectl {
@@ -123,7 +123,7 @@ sub install_aistack_chart {
     assert_script_run("curl " . data_url("aistack/$local_storage_name") . " -o $local_storage_name", 60);
     assert_script_run("ll");
     assert_script_run("kubectl apply -f $local_storage_name", timeout => 120);
-    assert_script_run("helm upgrade --install suse-private-ai private-ai-charts --namespace $namespace --create-namespace --values $vf_name --set open-webui.ingress.class=nginx", timeout => 720);
+    assert_script_run("helm upgrade --install suse-private-ai private-ai-charts --namespace $namespace --create-namespace --values $vf_name --set open-webui.ingress.class=nginx");
     assert_script_run("kubectl get all --namespace $namespace");
     sleep 180;
 
