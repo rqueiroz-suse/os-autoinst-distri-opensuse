@@ -320,7 +320,7 @@ sub load_slem_on_pc_tests {
         } elsif (get_var('PUBLIC_CLOUD_AISTACK')) {
             # AISTACK test verification
             loadtest("publiccloud/ssh_interactive_start", run_args => $args);
-            #loadtest("publiccloud/create_aistack_env", run_args => $args);
+            loadtest("publiccloud/create_aistack_env", run_args => $args);
             loadtest("publiccloud/aistack_sanity_run", run_args => $args);
             loadtest("publiccloud/ssh_interactive_end", run_args => $args);
             #loadtest("publiccloud/<rbac>", run_args => $args);
