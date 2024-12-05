@@ -30,7 +30,6 @@ sub run {
     assert_script_run("curl -O " . $sanity_tests_url);
     assert_script_run("mkdir " . $test_folder);
     assert_script_run("tar -xzvf open-webui-sanity-tests.tar.gz -C " . $test_folder);
-    trup_call("pkg install python311");
     assert_script_run("python3 -m venv " . $test_folder . "/venv"); 
     assert_script_run("source " . $test_folder . "/venv/bin/activate");
     assert_script_run("pip3 install -r ./" . $test_folder . "/requirements.txt");
