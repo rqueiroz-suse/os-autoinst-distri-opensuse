@@ -35,7 +35,8 @@ sub run {
     assert_script_run("pip3 install -r ./" . $test_folder . "/requirements.txt");
     assert_script_run("ll " . $test_folder);
     assert_script_run("cp " . $test_folder . "/env.example " . $test_folder . "/.env");
-    assert_script_run("pytest --URL=https://" . $host_name . " --OPENWEBUI-ADMIN-EMAIL=" . $admin_email . " --OPENWEBUI-ADMIN-PWD=" . $admin_password . " " . $test_folder . "/tests/");
+    assert_script_run('pytest --URL="https://' . $host_name . '" --OPENWEBUI-ADMIN-EMAIL=' . $admin_email . ' --OPENWEBUI-ADMIN-PWD=' . $admin_password . ' ' . $test_folder . "/tests/");
+    assert_script_run("pytest --URL='https://$host_name' --OPENWEBUI-ADMIN-EMAIL=$admin_email --OPENWEBUI-ADMIN-PWD=$admin_password $test_folder/tests/");
 }
 
 1;
