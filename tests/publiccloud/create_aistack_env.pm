@@ -35,7 +35,7 @@ sub install_dependency_package {
     my $helm_url = get_var('HELM_URL');
 
     record_info('Dep pkg install');
-    trup_call("pkg install curl git docker");
+    trup_call("pkg install curl git docker python311");
 
     # docker activation section
     process_reboot(trigger => 1);
