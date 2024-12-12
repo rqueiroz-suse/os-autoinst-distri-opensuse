@@ -23,7 +23,6 @@ sub run {
     my $ipaddr = get_var('OPENWEBUI_IP');
     my $host_name = get_var('OPENWEBUI_HOSTNAME');
     
-
     my $admin_email = get_var('OPENWEBUI_ADMIN_EMAIL');
     my $admin_password = get_var('OPENWEBUI_ADMIN_PWD');
 
@@ -33,9 +32,7 @@ sub run {
     assert_script_run("python3.11 -m venv " . $test_folder . "/venv"); 
     assert_script_run("source " . $test_folder . "/venv/bin/activate");
     assert_script_run("pip3 install -r ./" . $test_folder . "/requirements.txt");
-    assert_script_run("ll " . $test_folder);
     assert_script_run("cp " . $test_folder . "/env.example " . $test_folder . "/.env");
-    #assert_script_run('pytest --URL="https://' . $host_name . '" --OPENWEBUI-ADMIN-EMAIL=' . $admin_email . ' --OPENWEBUI-ADMIN-PWD=' . $admin_password . ' ' . $test_folder . "/tests/");
     assert_script_run("pytest --URL='https://$host_name' --OPENWEBUI-ADMIN-EMAIL=$admin_email --OPENWEBUI-ADMIN-PWD=$admin_password $test_folder/tests/");
 }
 
